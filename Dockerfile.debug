@@ -1,0 +1,7 @@
+FROM node:lts-alpine AS builder
+WORKDIR /usr/src/app
+COPY package*.json ./
+RUN npm install & npm install @angular/cli -g & wait
+COPY . .
+EXPOSE 4200
+CMD ["sh", "-c", "npm install && ng serve --host 0.0.0.0"]
