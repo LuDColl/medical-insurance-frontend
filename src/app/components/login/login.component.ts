@@ -4,6 +4,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { LoginService } from './login.service';
+import { TOKEN } from '../../consts/local-storage.consts';
+import { LocalStorageService } from '../../services/local-storage.service';
+import { Router } from '@angular/router';
+import { HOME } from '../../consts/routes.consts';
 
 @Component({
   standalone: true,
@@ -21,6 +25,8 @@ import { LoginService } from './login.service';
 export class LoginComponent {
   constructor(private readonly service: LoginService) {}
 
+  private readonly localStorageService = inject(LocalStorageService);
+  private readonly router = inject(Router);
   private readonly formBuilder = inject(FormBuilder);
 
   form = this.formBuilder.group({
@@ -44,7 +50,10 @@ export class LoginComponent {
         password: this.passwordControl.value!,
       })
       .subscribe({
-        next: alert,
+        next: (token) => {
+          this.localStorageService.setItem(TOKEN, token);
+          this.router.navigate([HOME]);
+        },
         error: (error) => {
           const response = JSON.parse(error.error);
           alert(response.message);
