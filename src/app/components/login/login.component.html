@@ -1,0 +1,19 @@
+<main>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline">
+      <mat-label>Usuário</mat-label>
+      <input matInput formControlName="user" required />
+      @if (userControl.invalid) {
+      <mat-error>Usuário Obrigatório</mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Senha</mat-label>
+      <input matInput formControlName="password" required />
+      @if (passwordControl.invalid) {
+      <mat-error>Senha Obrigatória</mat-error>
+      }
+    </mat-form-field>
+    <button mat-fab extended type="submit">Entrar</button>
+  </form>
+</main>
